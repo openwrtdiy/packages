@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2018-2022 Nick Peng (pymumu@gmail.com)
+# Copyright (c) 2018-2020 Nick Peng (pymumu@gmail.com)
 # This is free software, licensed under the GNU General Public License v3.
 #
 
