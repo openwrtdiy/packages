@@ -11,9 +11,10 @@ PKG_NAME:=rp-pppoe
 PKG_VERSION:=3.15
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://dianne.skoll.ca/projects/rp-pppoe/download
-PKG_HASH:=b1f318bc7e4e5b0fd8a8e23e8803f5e6e43165245a5a10a7162a92a6cf17829a
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_URL:=https://github.com/dfskoll/rp-pppoe.git
+PKG_SOURCE_VERSION:=c3de064773abd8d72fe571382e713c8690eaadff
+PKG_MIRROR_HASH:=2ea75a2cbe6b4a54d7b38848ee2eab6370113c44a69513d72fdd162d68bef7ec
 
 PKG_MAINTAINER:=
 PKG_LICENSE:=LGPL-2.0-or-later
@@ -29,7 +30,7 @@ define Package/rp-pppoe/Default
   SECTION:=net
   CATEGORY:=Network
   TITLE:=PPPoE (PPP over Ethernet)
-  URL:=https://dianne.skoll.ca/projects/rp-pppoe/
+  URL:=https://github.com/dfskoll/rp-pppoe/
   SUBMENU:=Dial-in/up
 endef
 
