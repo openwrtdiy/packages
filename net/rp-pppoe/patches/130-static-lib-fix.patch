@@ -4,7 +4,7 @@
  	@CC@ -DPLUGIN=1 '-DRP_VERSION="$(RP_VERSION)"' $(CFLAGS) -I$(PPPD_INCDIR) -c -o $@ -fPIC $<
  
  plugin/libplugin.a: plugin/discovery.o plugin/if.o plugin/common.o plugin/debug.o
--	@AR@ -rc $@ $^
+-	ar -rc $@ $^
 +	$(AR) -rc $@ $^
 +	@RANLIB@ $@
  
