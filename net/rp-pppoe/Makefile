@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2006-2016 OpenWrt.org
+# Copyright (C) 2006-2023 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -9,14 +9,14 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rp-pppoe
 PKG_VERSION:=3.15
-PKG_RELEASE:=1
+PKG_RELEASE:=20230106
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/openwrtdiy/rp-pppoe.git
 PKG_SOURCE_VERSION:=c2272d4e97b6eec58f932802f613c13173d0a759
 PKG_MIRROR_HASH:=ae54db0c682336e2d4147cb1bc2dc54aac7744a985fb9cd73e0f0d3c301ee0fd
 
-PKG_MAINTAINER:=
+PKG_MAINTAINER:=Dianne Skoll <dianne@skoll.ca>
 PKG_LICENSE:=LGPL-2.0-or-later
 PKG_LICENSE_FILES:=doc/LICENSE
 PKG_CPE_ID:=cpe:/a:roaring_penguin:pppoe
