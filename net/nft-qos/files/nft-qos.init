@@ -7,7 +7,6 @@ if [ -z "${IPKG_INSTROOT}" ]; then
 	. /lib/functions/network.sh
 	. /lib/nft-qos/core.sh
 	. /lib/nft-qos/monitor.sh
-	. /lib/nft-qos/dynamic.sh
 	. /lib/nft-qos/static.sh
 	. /lib/nft-qos/mac.sh
 fi
@@ -19,7 +18,6 @@ service_triggers() {
 	procd_add_reload_trigger nft-qos
 
 	procd_open_validate
-	qosdef_validate_dynamic
 	qosdef_validate_static
 	qosdef_validate_mac
 	procd_close_validate
@@ -31,11 +29,9 @@ start_service() {
 	qosdef_init_env
 	qosdef_flush_mac
 	qosdef_flush_static
-	qosdef_flush_dynamic
 
 	qosdef_init_header
 	qosdef_init_monitor
-	qosdef_validate_dynamic default qosdef_init_dynamic
 	qosdef_validate_static default qosdef_init_static
 	qosdef_validate_mac default qosdef_init_mac
 	qosdef_init_done
@@ -43,7 +39,6 @@ start_service() {
 }
 
 stop_service() {
-	qosdef_flush_dynamic
 	qosdef_flush_static
 	qosdef_flush_mac
 	qosdef_clean_cache
