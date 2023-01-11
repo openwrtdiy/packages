@@ -15,10 +15,10 @@ qosdef_append_rule_sta() { # <section> <operator> <default-unit> <default-rate>
 
 	config_get ipaddr $1 ipaddr
 	if [ "$operator" = "saddr" ]; then
-		config_get unit $1 unit
+		config_get unit $1 unit kbytes
 		config_get rate $1 urate
 	else
-		config_get unit $1 unit
+		config_get unit $1 unit kbytes
 		config_get rate $1 drate
 	fi
 
