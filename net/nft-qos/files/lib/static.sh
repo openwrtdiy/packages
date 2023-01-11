@@ -5,12 +5,7 @@
 
 qosdef_validate_static() {
 	uci_load_validate nft-qos default "$1" "$2" \
-		'limit_ip_enable:bool:0' \
-		'limit_type:maxlength(8)' \
-		'static_unit_dl:string:kbytes' \
-		'static_unit_ul:string:kbytes' \
-		'static_rate_dl:uinteger:128' \
-		'static_rate_ul:uinteger:128'
+		'limit_ip_enable:bool:0'
 }
 
 # append rule for static qos
@@ -62,8 +57,7 @@ qosdef_init_static() {
 		return 1
 	}
 
-	[ $limit_ip_enable -eq 0 -o \
-		$limit_type = "dynamic" ] && return 1
+	[ $limit_ip_enable -eq 0 ] && return 1
 
 	[ -z "$NFT_QOS_HAS_BRIDGE" ] && {
 		hook_ul="postrouting"
