@@ -11,12 +11,12 @@ PKG_NAME:=rp-pppoe
 PKG_VERSION:=20230108
 PKG_RELEASE:=$(AUTORELEASE)
 
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/openwrtdiy/rp-pppoe.git
-PKG_SOURCE_VERSION:=24e556030c28b671fd2b682255ca396df06abdb6
-PKG_MIRROR_HASH:=55fad6c1199040f309d4eddc70a71f053383a7ccc2c3f57e7b9ad9c278d77196
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://codeload.github.com/openwrtdiy/rp-pppoe/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=55fad6c1199040f309d4eddc70a71f053383a7ccc2c3f57e7b9ad9c278d77196
+PKG_BUILD_DIR:=$(BUILD_DIR)/openNDS-$(PKG_VERSION)
 
-PKG_MAINTAINER:=Dianne Skoll <dianne@skoll.ca>
+PKG_MAINTAINER:=
 PKG_LICENSE:=LGPL-2.0-or-later
 PKG_LICENSE_FILES:=doc/LICENSE
 PKG_CPE_ID:=cpe:/a:roaring_penguin:pppoe
