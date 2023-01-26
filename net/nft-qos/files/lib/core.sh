@@ -47,6 +47,24 @@ qosdef_append_rule_ip_policy() { # <operator> <ipaddr> <policy>
 	qosdef_appendx "\t\tip $1 $2 $3\n"
 }
 
+_handle_limit_whitelist() { # <value> <chain>
+	local ipaddr=$1
+	local operator
+
+	[ -z "$ipaddr" ] && return
+
+	case "$2" in
+		download) operator="daddr";;
+		upload) operator="saddr";;
+	esac
+
+	qosdef_append_rule_ip_policy $operator $ipaddr accept
+}
+
+qosdef_append_rule_limit_whitelist() { # <chain>
+	config_list_foreach default limit_whitelist _handle_limit_whitelist $1
+}
+
 qosdef_flush_table() { # <family> <table>
 	nft flush table $1 $2 2>/dev/null
 }

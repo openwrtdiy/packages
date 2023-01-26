@@ -39,6 +39,7 @@ qosdef_append_chain_sta() { # <hook> <name> <section> <unit> <rate>
 
 	qosdef_appendx "\tchain $name {\n"
 	qosdef_append_chain_def filter $hook 0 accept
+	qosdef_append_rule_limit_whitelist $name
 	config_foreach qosdef_append_rule_sta $config $operator
 	qosdef_appendx "\t}\n"
 }
