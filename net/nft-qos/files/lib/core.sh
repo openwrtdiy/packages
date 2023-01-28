@@ -3,7 +3,7 @@
 # Copyright (C) 2018 rosysong@rosinson.com
 #
 
-NFT_QOS_HAS_BRIDGE=
+NFT_QOS_HAS_BRIDGE=mac
 NFT_QOS_INET_FAMILY=ip
 NFT_QOS_SCRIPT_TEXT=
 NFT_QOS_SCRIPT_FILE=/tmp/qos.nft
