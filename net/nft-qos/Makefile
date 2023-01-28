@@ -54,6 +54,7 @@ define Package/nft-qos/install
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/dhcp
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
 	$(INSTALL_BIN) ./files/nft-qos-monitor.hotplug $(1)/etc/hotplug.d/dhcp/00-nft-qos-monitor
+	$(INSTALL_BIN) ./files/nft-qos-monitor.hotplug $(1)/etc/hotplug.d/iface/00-nft-qos-monitor
 endef
 
 $(eval $(call BuildPackage,nft-qos))
