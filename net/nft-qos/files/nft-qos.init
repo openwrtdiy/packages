@@ -8,6 +8,7 @@ if [ -z "${IPKG_INSTROOT}" ]; then
 	. /lib/nft-qos/core.sh
 	. /lib/nft-qos/monitor.sh
 	. /lib/nft-qos/dynamic.sh
+	. /lib/nft-qos/pppoe.sh
 	. /lib/nft-qos/static.sh
 	. /lib/nft-qos/mac.sh
 	. /lib/nft-qos/priority.sh
@@ -38,6 +39,7 @@ start_service() {
 
 	qosdef_init_header
 	qosdef_init_monitor
+	qosdef_init_pppoe
 	qosdef_validate_dynamic default qosdef_init_dynamic
 	qosdef_validate_static default qosdef_init_static
 	qosdef_validate_mac default qosdef_init_mac

@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+# Copyright 2018 rosysong@rosinson.com
+#
+
+export initscript="nft-qos-pppoe"
+
+. /lib/functions/procd.sh
+. /lib/functions.sh
+. /lib/nft-qos/core.sh
+. /lib/nft-qos/pppoe.sh
+
+logger -t nft-qos-pppoe "ACTION=$ACTION, MACADDR=$MACADDR, IPADDR=$IPADDR, HOSTNAME=$HOSTNAME"
+
+case "$ACTION" in
+	add | update)
+		qosdef_init_env
+		qosdef_init_pppoe
+		qosdef_pppoe_add "$MACADDR" "$IPADDR" "$HOSTNAME"
+	;;
+	remove)
+		qosdef_init_env
+		qosdef_init_pppoe
+		qosdef_pppoe_del "$MACADDR" "$IPADDR" "$HOSTNAME"
+	;;
+esac
