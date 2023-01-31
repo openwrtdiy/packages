@@ -3,6 +3,8 @@
 # Copyright (C) 2020 Tong Zhang<ztong0001@gmail.com>
 #
 
+. /lib/nft-qos/core.sh
+
 qosdef_validate_mac() {
 	uci_load_validate nft-qos default "$1" "$2" \
 		'limit_mac_enable:bool:0'
@@ -15,10 +17,10 @@ qosdef_append_rule_mac() { # <section> <operator>
 
 	config_get macaddr $1 macaddr
 	if [ "$operator" = "saddr" ]; then
-		config_get unit $1 unit kbytes
+		config_get unit $1 urunit
 		config_get rate $1 urate
 	else
-		config_get unit $1 unit kbytes
+		config_get unit $1 drunit
 		config_get rate $1 drate
 	fi
 
