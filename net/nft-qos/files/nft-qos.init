@@ -4,6 +4,7 @@
 #
 
 if [ -z "${IPKG_INSTROOT}" ]; then
+	. /lib/functions/network.sh
 	. /lib/nft-qos/core.sh
 	. /lib/nft-qos/monitor.sh
 	. /lib/nft-qos/dynamic.sh
