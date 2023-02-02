@@ -3,10 +3,7 @@
 # Copyright (C) 2018 rosysong@rosinson.com
 #
 
-# for uci_validate_section()
-. /lib/functions/procd.sh
-
-NFT_QOS_HAS_BRIDGE=mac
+NFT_QOS_HAS_BRIDGE=bridge
 NFT_QOS_INET_FAMILY=ip
 NFT_QOS_SCRIPT_TEXT=
 NFT_QOS_SCRIPT_FILE=/tmp/qos.nft
@@ -84,7 +81,7 @@ qosdef_init_header() { # add header for nft script
 
 qosdef_init_env() {
 	# check interface type of lan
-	local lt="$(uci_get "network.lan.type")"
+	local lt="$(uci_get "network.lan.device")"
 	[ "$lt" = "bridge" ] && export NFT_QOS_HAS_BRIDGE="y"
 
 	# check if ipv6 support

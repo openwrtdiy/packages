@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nft-qos
 PKG_VERSION:=1.0.6
-PKG_RELEASE:=202301311725
+PKG_RELEASE:=20230203
 PKG_LICENSE:=GPL-2.0
 
 PKG_MAINTAINER:=Rosy Song <rosysong@rosinson.com>
@@ -52,10 +52,7 @@ define Package/nft-qos/install
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/nft-qos.init $(1)/etc/init.d/nft-qos
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/dhcp
-	$(INSTALL_DIR) $(1)/etc/hotplug.d/iface
 	$(INSTALL_BIN) ./files/nft-qos-monitor.hotplug $(1)/etc/hotplug.d/dhcp/00-nft-qos-monitor
-	$(INSTALL_BIN) ./files/nft-qos-dynamic.hotplug $(1)/etc/hotplug.d/dhcp/01-nft-qos-dynamic
-	$(INSTALL_BIN) ./files/nft-qos-pppoe.hotplug $(1)/etc/hotplug.d/iface/00-nft-qos-pppoe
 endef
 
 $(eval $(call BuildPackage,nft-qos))
