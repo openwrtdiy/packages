@@ -8,13 +8,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sqm-scripts
-PKG_SOURCE_VERSION:=47998169a5b5daa5850edf8f29c66cd4b65fadc2
+PKG_SOURCE_VERSION:=7ce734ea191240c85c86b83cbf18701655b0359c
 PKG_VERSION:=1.5.2
 PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/openwrtdiy/sqm-scripts.git
-PKG_MIRROR_HASH:=2e80f4772626b01759cfabe5ae234f36cfc178124f66f665bfc2456dd0f48683
+PKG_SOURCE_URL:=https://github.com/tohojo/sqm-scripts
+PKG_MIRROR_HASH:=62d9a655cd6a89665a7bc8473a771fd8203933989d2276f3d34ccbf6be21661f
 
 PKG_MAINTAINER:=Toke Høiland-Jørgensen <toke@toke.dk>
 PKG_LICENSE:=GPL-2.0-only
