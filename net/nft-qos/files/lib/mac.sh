@@ -3,6 +3,8 @@
 # Copyright (C) 2020 Tong Zhang<ztong0001@gmail.com>
 #
 
+. /lib/nft-qos/core.sh
+
 qosdef_validate_mac() {
 	uci_load_validate nft-qos default "$1" "$2" \
 		'limit_mac_enable:bool:0'
@@ -15,10 +17,10 @@ qosdef_append_rule_mac() { # <section> <operator>
 
 	config_get macaddr $1 macaddr
 	if [ "$operator" = "saddr" ]; then
-		config_get unit $1 unit kbytes
+		config_get unit $1 urunit
 		config_get rate $1 urate
 	else
-		config_get unit $1 unit kbytes
+		config_get unit $1 drunit
 		config_get rate $1 drate
 	fi
 
@@ -39,13 +41,16 @@ qosdef_append_chain_mac() { # <hook> <name> <section>
 
 	qosdef_appendx "\tchain $name {\n"
 	qosdef_append_chain_def filter $hook 0 accept
-	qosdef_append_rule_limit_whitelist $name
 	config_foreach qosdef_append_rule_mac $config $operator
 	qosdef_appendx "\t}\n"
 }
 
 qosdef_flush_mac() {
-	qosdef_flush_table "$NFT_QOS_HAS_BRIDGE" nft-qos-mac
+	if [ -n "$NFT_QOS_HAS_BRIDGE" ]; then
+		qosdef_flush_table bridge nft-qos-mac
+	else
+		qosdef_flush_table "$NFT_QOS_INET_FAMILY" nft-qos-mac
+	fi
 }
 
 # limit rate by mac address init
@@ -59,12 +64,15 @@ qosdef_init_mac() {
 
 	[ $limit_mac_enable -eq 0 ] && return 1
 
-	[ -z "$NFT_QOS_HAS_BRIDGE" ] && {
+	table_name=$NFT_QOS_INET_FAMILY
+	if [ -z "$NFT_QOS_HAS_BRIDGE" ]; then
 		hook_ul="postrouting"
 		hook_dl="prerouting"
-	}
+	else
+		table_name="bridge"
+	fi
 
-	qosdef_appendx "table $NFT_QOS_HAS_BRIDGE nft-qos-mac {\n"
+	qosdef_appendx "table $table_name nft-qos-mac {\n"
 	qosdef_append_chain_mac $hook_ul upload client
 	qosdef_append_chain_mac $hook_dl download client
 	qosdef_appendx "}\n"
