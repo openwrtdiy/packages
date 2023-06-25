@@ -30,9 +30,9 @@ start_service() {
 	config_load nft-qos
 
 	qosdef_init_env
-	qosdef_flush_mac
 	qosdef_flush_static
 	qosdef_flush_dynamic
+	qosdef_flush_mac
 	qosdef_remove_priority
 
 	qosdef_init_header
