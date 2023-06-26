@@ -70,7 +70,7 @@ qosdef_init_dynamic() {
 		return 1
 	}
 
-	[ $limit_enable -eq 0 -o \
+	[ $limit_ip_enable -eq 0 -o \
 		"$limit_type" = "static" ] && return 1
 
 	# Transfer mbits/s to mbytes/s
