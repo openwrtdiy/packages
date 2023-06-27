@@ -9,10 +9,9 @@ qosdef_validate_static() {
 	uci_load_validate nft-qos default "$1" "$2" \
 		'limit_ip_enable:bool:0' \
 		'limit_type:maxlength(8)' \
-		'static_unit_dl:string:kbytes' \
-		'static_unit_ul:string:kbytes' \
-		'static_rate_dl:uinteger:100' \
-		'static_rate_ul:uinteger:100'
+		'static_unit:string:kbytes' \
+		'static_rate_ul:uinteger:100' \
+		'static_rate_dl:uinteger:100'
 }
 
 # append rule for static qos
