@@ -3,14 +3,12 @@
 # Copyright (C) 2018 rosysong@rosinson.com
 #
 
-if [ -z "${IPKG_INSTROOT}" ]; then
-	. /lib/nft-qos/core.sh
-	. /lib/nft-qos/monitor.sh
-	. /lib/nft-qos/dynamic.sh
-	. /lib/nft-qos/static.sh
-	. /lib/nft-qos/mac.sh
-	. /lib/nft-qos/priority.sh
-fi
+. "${IPKG_INSTROOT}/lib/nft-qos/core.sh"
+. "${IPKG_INSTROOT}/lib/nft-qos/monitor.sh"
+. "${IPKG_INSTROOT}/lib/nft-qos/dynamic.sh"
+. "${IPKG_INSTROOT}/lib/nft-qos/static.sh"
+. "${IPKG_INSTROOT}/lib/nft-qos/mac.sh"
+. "${IPKG_INSTROOT}/lib/nft-qos/priority.sh"
 
 START=99
 USE_PROCD=1
@@ -30,9 +28,9 @@ start_service() {
 	config_load nft-qos
 
 	qosdef_init_env
+	qosdef_flush_mac
 	qosdef_flush_static
 	qosdef_flush_dynamic
-	qosdef_flush_mac
 	qosdef_remove_priority
 
 	qosdef_init_header

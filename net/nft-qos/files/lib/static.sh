@@ -7,11 +7,12 @@
 
 qosdef_validate_static() {
 	uci_load_validate nft-qos default "$1" "$2" \
-		'limit_ip_enable:bool:0' \
+		'limit_enable:bool:0' \
 		'limit_type:maxlength(8)' \
-		'static_unit:string:kbytes' \
-		'static_rate_ul:uinteger:100' \
-		'static_rate_dl:uinteger:100'
+		'static_unit_dl:string:kbytes' \
+		'static_unit_ul:string:kbytes' \
+		'static_rate_dl:uinteger:50' \
+		'static_rate_ul:uinteger:50'
 }
 
 # append rule for static qos
@@ -20,13 +21,8 @@ qosdef_append_rule_sta() { # <section> <operator> <default-unit> <default-rate>
 	local operator=$2
 
 	config_get ipaddr $1 ipaddr
-	if [ "$operator" = "saddr" ]; then
-		config_get unit $1 unit
-		config_get rate $1 urate
-	else
-		config_get unit $1 unit
-		config_get rate $1 drate
-	fi
+	config_get unit $1 unit $3
+	config_get rate $1 rate $4
 
 	[ -z "$ipaddr" ] && return
 
@@ -46,7 +42,7 @@ qosdef_append_chain_sta() { # <hook> <name> <section> <unit> <rate>
 	qosdef_appendx "\tchain $name {\n"
 	qosdef_append_chain_def filter $hook 0 accept
 	qosdef_append_rule_limit_whitelist $name
-	config_foreach qosdef_append_rule_sta $config $operator
+	config_foreach qosdef_append_rule_sta $config $operator $4 $5
 	qosdef_appendx "\t}\n"
 }
 
@@ -63,7 +59,7 @@ qosdef_init_static() {
 		return 1
 	}
 
-	[ $limit_ip_enable -eq 0 -o \
+	[ $limit_enable -eq 0 -o \
 		$limit_type = "dynamic" ] && return 1
 
 	[ -z "$NFT_QOS_HAS_BRIDGE" ] && {
@@ -72,7 +68,7 @@ qosdef_init_static() {
 	}
 
 	qosdef_appendx "table $NFT_QOS_INET_FAMILY nft-qos-static {\n"
-	qosdef_append_chain_sta $hook_ul upload user
-	qosdef_append_chain_sta $hook_dl download user
+	qosdef_append_chain_sta $hook_ul upload upload $static_unit_ul $static_rate_ul
+	qosdef_append_chain_sta $hook_dl download download $static_unit_dl $static_rate_dl
 	qosdef_appendx "}\n"
 }

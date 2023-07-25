@@ -7,7 +7,7 @@
 
 qosdef_validate_dynamic() {
 	uci_load_validate nft-qos default "$1" "$2" \
-		'limit_ip_enable:bool:0' \
+		'limit_enable:bool:0' \
 		'limit_type:maxlength(8)' \
 		'dynamic_bw_up:uinteger:100' \
 		'dynamic_bw_down:uinteger:100'
@@ -70,7 +70,7 @@ qosdef_init_dynamic() {
 		return 1
 	}
 
-	[ $limit_ip_enable -eq 0 -o \
+	[ $limit_enable -eq 0 -o \
 		"$limit_type" = "static" ] && return 1
 
 	# Transfer mbits/s to mbytes/s

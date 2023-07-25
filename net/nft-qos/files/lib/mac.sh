@@ -17,10 +17,10 @@ qosdef_append_rule_mac() { # <section> <operator>
 
 	config_get macaddr $1 macaddr
 	if [ "$operator" = "saddr" ]; then
-		config_get unit $1 unit
+		config_get unit $1 urunit
 		config_get rate $1 urate
 	else
-		config_get unit $1 unit
+		config_get unit $1 drunit
 		config_get rate $1 drate
 	fi
 
