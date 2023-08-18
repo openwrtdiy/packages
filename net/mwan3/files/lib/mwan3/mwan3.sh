@@ -338,29 +338,11 @@ mwan3_set_general_iptables()
 			done
 		fi
 
-		if [ -n "${current##*-N mwan3_pre*}" ]; then
-			mwan3_push_update -N mwan3_pre
-			mwan3_push_update -A mwan3_pre \
-					  -j MARK --set-xmark "0x0/$MMX_MASK"
-		fi
-
-		if [ -n "${current##*-N mwan3_post*}" ]; then
-			mwan3_push_update -N mwan3_post
-			mwan3_push_update -A mwan3_post \
-					  -j MARK --set-xmark "0x0/$MMX_MASK"
-		fi
-
-		if [ -n "${current##*-A PREROUTING -j mwan3_pre*}" ]; then
-			mwan3_push_update -A PREROUTING -j mwan3_pre
-		fi
 		if [ -n "${current##*-A PREROUTING -j mwan3_hook*}" ]; then
 			mwan3_push_update -A PREROUTING -j mwan3_hook
 		fi
 		if [ -n "${current##*-A OUTPUT -j mwan3_hook*}" ]; then
 			mwan3_push_update -A OUTPUT -j mwan3_hook
-		fi
-		if [ -n "${current##*-A POSTROUTING -j mwan3_post*}" ]; then
-			mwan3_push_update -A POSTROUTING -j mwan3_post
 		fi
 		mwan3_push_update COMMIT
 		mwan3_push_update ""
@@ -753,8 +735,8 @@ mwan3_set_policies_iptables()
 
 mwan3_set_sticky_iptables()
 {
-	local rule="${1}"
-	local interface="${2}"
+	local interface="${1}"
+	local rule="${2}"
 	local ipv="${3}"
 	local policy="${4}"
 
@@ -897,7 +879,7 @@ mwan3_set_user_iptables_rule()
 		fi
 
 		mwan3_push_update -F "mwan3_rule_$1"
-		config_foreach mwan3_set_sticky_iptables interface $ipv "$policy"
+		config_foreach mwan3_set_sticky_iptables interface "$rule" "$ipv" "$policy"
 
 
 		mwan3_push_update -A "mwan3_rule_$1" \
