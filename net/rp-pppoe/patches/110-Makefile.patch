@@ -1,7 +1,7 @@
 --- a/src/Makefile.in
 +++ b/src/Makefile.in
-@@ -63,7 +63,7 @@ pppoe-sniff: pppoe-sniff.o if.o common.o
- 	@CC@ -o $@ $^ $(LDFLAGS)
+@@ -63,7 +63,7 @@ pppoe-sniff: pppoe-sniff.o if.o common.o debug.o
+ 	@CC@ -o $@ $^ $(LDFLAGS) $(STATIC)
  
  pppoe-server: pppoe-server.o if.o debug.o common.o md5.o libevent/libevent.a @PPPOE_SERVER_DEPS@
 -	@CC@ -o $@ @RDYNAMIC@ $^ $(LDFLAGS) $(PPPOE_SERVER_LIBS) -Llibevent -levent
