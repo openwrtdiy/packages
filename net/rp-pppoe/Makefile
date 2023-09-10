@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2006-2023 OpenWrt.org
+# Copyright (C) 2006-2016 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -8,19 +8,18 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rp-pppoe
-PKG_VERSION:=3.15
+PKG_VERSION:=4.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://dianne.skoll.ca/projects/rp-pppoe/download
-PKG_HASH:=b1f318bc7e4e5b0fd8a8e23e8803f5e6e43165245a5a10a7162a92a6cf17829a
+PKG_HASH:=41ac34e5db4482f7a558780d3b897bdbb21fae3fef4645d2852c3c0c19d81cea
 
 PKG_MAINTAINER:=
 PKG_LICENSE:=LGPL-2.0-or-later
 PKG_LICENSE_FILES:=doc/LICENSE
 PKG_CPE_ID:=cpe:/a:roaring_penguin:pppoe
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/rp-pppoe-$(PKG_VERSION)
 PKG_BUILD_DEPENDS:=ppp
 PKG_BUILD_PARALLEL:=1
 
@@ -107,7 +106,7 @@ endef
 TARGET_CFLAGS += -I$(PKG_BUILD_DIR)/src/libevent -isystem $(PKG_BUILD_DIR)/missing-headers -D_BSD_SOURCE
 CONFIGURE_PATH := ./src
 CONFIGURE_ARGS += ac_cv_path_PPPD=/usr/sbin/pppd --enable-plugin=$(STAGING_DIR)/usr/include/
-MAKE_FLAGS := DESTDIR="$(PKG_INSTALL_DIR)" PLUGIN_PATH=rp-pppoe.so install
+MAKE_FLAGS := DESTDIR="$(PKG_INSTALL_DIR)" PLUGIN_PATH=pppoe.so install
 MAKE_PATH := ./src
 
 define Build/Prepare
