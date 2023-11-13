@@ -237,9 +237,7 @@ mwan3_set_dynamic_ipset()
 
 mwan3_set_general_rules()
 {
-	local IP unknown_wan_action
-
-	config_get unknown_wan_action globals unknown_wan_action "none"
+	local IP
 
 	for IP in "$IP4" "$IP6"; do
 		[ "$IP" = "$IP6" ] && [ $NO_IPV6 -ne 0 ] && continue
@@ -252,21 +250,12 @@ mwan3_set_general_rules()
 		if [ -z "$($IP rule list | awk -v var="$RULE_NO:" '$1 == var')" ]; then
 			$IP rule add pref $RULE_NO fwmark $MMX_UNREACHABLE/$MMX_MASK unreachable
 		fi
-		
-		if [ $unknown_wan_action != "none" ]; then
-			RULE_NO=$((MM_UNKNOWN_WAN+2000))
-			if [ -z "$($IP rule list | awk -v var="$RULE_NO:" '$1 == var')" ]; then
-				$IP rule add pref $RULE_NO fwmark $MMX_UNKNOWN_WAN/$MMX_MASK "$unknown_wan_action"
-			fi
-		fi
 	done
 }
 
 mwan3_set_general_iptables()
 {
-	local IPT current update error family unknown_wan_action
-
-	config_get unknown_wan_action globals unknown_wan_action "none"
+	local IPT current update error family
 
 	for IPT in "$IPT4" "$IPT6"; do
 		[ "$IPT" = "$IPT6" ] && [ $NO_IPV6 -ne 0 ] && continue
@@ -289,23 +278,9 @@ mwan3_set_general_iptables()
 				mwan3_push_update -N mwan3_${chain}_${family}
 				mwan3_push_update -A mwan3_${chain}_${family} \
 					-m set --match-set mwan3_${chain}_${family} dst \
-					-m set --match-set mwan3_${chain}_${family} src \
 					-j MARK --set-xmark $MMX_DEFAULT/$MMX_MASK
 			fi
 		done
-		
-		if [ $unknown_wan_action != "none" ]; then
-			if [ -n "${current##*-N mwan3_unknown_wan_${family}*}" ]; then
-				mwan3_push_update -N mwan3_unknown_wan_${family}
-				for chain in custom connected dynamic; do
-					mwan3_push_update -A mwan3_unknown_wan_${family} \
-						-m set --match-set mwan3_${chain}_${family} src \
-						-j RETURN
-				done
-				mwan3_push_update -A mwan3_unknown_wan_${family} \
-					-j MARK --set-xmark $MMX_UNKNOWN_WAN/$MMX_MASK
-			fi
-		fi
 
 		if [ -n "${current##*-N mwan3_rules*}" ]; then
 			mwan3_push_update -N mwan3_rules
@@ -340,22 +315,9 @@ mwan3_set_general_iptables()
 			mwan3_push_update -A mwan3_hook \
 					  -m mark --mark 0x0/$MMX_MASK \
 					  -j CONNMARK --restore-mark --nfmask "$MMX_MASK" --ctmask "$MMX_MASK"
-			if [ $unknown_wan_action != "none" ]; then
-				mwan3_push_update -A mwan3_hook \
-						  -m conntrack --ctdir REPLY \
-						  -j RETURN
-				mwan3_push_update -A mwan3_hook \
-						  -m mark --mark $MMX_UNKNOWN_WAN/$MMX_MASK \
-						  -j MARK --set-xmark 0/$MMX_MASK
-			fi
 			mwan3_push_update -A mwan3_hook \
 					  -m mark --mark 0x0/$MMX_MASK \
 					  -j mwan3_ifaces_in
-			if [ $unknown_wan_action != "none" ]; then
-				mwan3_push_update -A mwan3_hook \
-						  -m mark --mark 0x0/$MMX_MASK \
-						  -j mwan3_unknown_wan_${family}
-			fi
 
 			for chain in custom connected dynamic; do
 				mwan3_push_update -A mwan3_hook \
