@@ -1,6 +1,6 @@
 #!/bin/sh
 # banIP main service script - ban incoming and outgoing IPs via named nftables Sets
-# Copyright (c) 2018-2023 Dirk Brenken (dev@brenken.org)
+# Copyright (c) 2018-2024 Dirk Brenken (dev@brenken.org)
 # This is free software, licensed under the GNU General Public License v3.
 
 # (s)hellcheck exceptions
@@ -9,11 +9,11 @@
 ban_action="${1}"
 ban_starttime="$(date "+%s")"
 ban_funlib="/usr/lib/banip-functions.sh"
-[ -z "$(command -v "f_system")" ] && . "${ban_funlib}"
+[ -z "${ban_ver}" ] && . "${ban_funlib}"
 
 # load config and set banIP environment
 #
-[ "${ban_action}" = "boot" ] && sleep "$(uci_get banip global ban_triggerdelay "10")"
+[ "${ban_action}" = "boot" ] && sleep "$(uci_get banip global ban_triggerdelay "20")"
 f_conf
 f_log "info" "start banIP processing (${ban_action})"
 f_log "debug" "f_system    ::: system: ${ban_sysver:-"n/a"}, version: ${ban_ver:-"n/a"}, memory: ${ban_memory:-"0"}, cpu_cores: ${ban_cores}"
@@ -24,8 +24,8 @@ f_getif
 f_getdev
 f_getuplink
 f_mkdir "${ban_backupdir}"
-f_mkfile "${ban_blocklist}"
 f_mkfile "${ban_allowlist}"
+f_mkfile "${ban_blocklist}"
 
 # firewall check
 #
@@ -44,13 +44,13 @@ if [ "${ban_action}" != "reload" ]; then
 	fi
 fi
 
-# init nft namespace
+# init banIP nftables namespace
 #
 if [ "${ban_action}" != "reload" ] || ! "${ban_nftcmd}" -t list set inet banIP allowlistv4MAC >/dev/null 2>&1; then
 	if f_nftinit "${ban_tmpfile}".init.nft; then
-		f_log "info" "initialize nft namespace"
+		f_log "info" "initialize banIP nftables namespace"
 	else
-		f_log "err" "can't initialize nft namespace"
+		f_log "err" "can't initialize banIP nftables namespace"
 	fi
 fi
 
@@ -99,7 +99,7 @@ for feed in allowlist ${ban_feed} blocklist; do
 		continue
 	fi
 
-	# handle IPv4/IPv6 feeds with the same/single download URL
+	# handle IPv4/IPv6 feeds with a single download URL
 	#
 	if [ "${feed_url_4}" = "${feed_url_6}" ]; then
 		if [ "${ban_protov4}" = "1" ] && [ -n "${feed_url_4}" ] && [ -n "${feed_rule_4}" ]; then
@@ -115,7 +115,8 @@ for feed in allowlist ${ban_feed} blocklist; do
 		fi
 		continue
 	fi
-	# handle IPv4/IPv6 feeds with separated download URLs
+
+	# handle IPv4/IPv6 feeds with separate download URLs
 	#
 	if [ "${ban_protov4}" = "1" ] && [ -n "${feed_url_4}" ] && [ -n "${feed_rule_4}" ]; then
 		(f_down "${feed}" "4" "${feed_url_4}" "${feed_rule_4}" "${feed_flag}") &

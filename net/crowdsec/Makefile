@@ -6,12 +6,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=crowdsec
-PKG_VERSION:=1.5.4
+PKG_VERSION:=1.6.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/crowdsecurity/crowdsec/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=afa4021f77e9cb87d7fd11cd86146770836dc15cad1ae8a4edce1314b14be98a
+PKG_HASH:=6d79d67383c7faed6c5b2019e4f01c6ed84334c8c45cd1736ff18a03167aa192
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE

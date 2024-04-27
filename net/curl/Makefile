@@ -9,15 +9,15 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/nls.mk
 
 PKG_NAME:=curl
-PKG_VERSION:=8.4.0
-PKG_RELEASE:=2
+PKG_VERSION:=8.7.1
+PKG_RELEASE:=r1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://github.com/curl/curl/releases/download/curl-$(subst .,_,$(PKG_VERSION))/ \
 	https://dl.uxnr.de/mirror/curl/ \
 	https://curl.askapache.com/download/ \
 	https://curl.se/download/
-PKG_HASH:=e5250581a9c032b1b6ed3cf2f9c114c811fc41881069e9892d115cc73f9e88c6
+PKG_HASH:=05bbd2b698e9cfbab477c33aa5e99b4975501835a41b7ca6ca71de03d8849e76
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=COPYING
@@ -113,6 +113,7 @@ TARGET_LDFLAGS += -Wl,--gc-sections
 
 CONFIGURE_ARGS += \
 	--disable-debug \
+	--disable-docs \
 	--disable-ares \
 	--enable-shared \
 	--enable-static \

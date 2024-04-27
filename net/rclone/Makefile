@@ -6,12 +6,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rclone
-PKG_VERSION:=1.64.2
+PKG_VERSION:=1.66.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/rclone/rclone/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=85feffc2d60554bcc3c59140750dc4ccf008e109b52c451956a1f52387af1bd6
+PKG_HASH:=9249391867044a0fa4c5a948b46a03b320706b4d5c4d59db9d4aeff8d47cade2
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -43,7 +43,7 @@ endef
 
 define Package/rclone
   $(call Package/rclone/Default)
-  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle +fuse-utils
+  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle +fuse3-utils
   USERID:=rclone:rclone
 endef
 
