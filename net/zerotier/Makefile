@@ -7,7 +7,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=zerotier
 PKG_VERSION:=1.14.1
-PKG_RELEASE:=3
+PKG_RELEASE:=14
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/zerotier/ZeroTierOne/tar.gz/$(PKG_VERSION)?
@@ -67,6 +67,8 @@ TARGET_CFLAGS += -isystem $(STAGING_DIR)/usr/include
 
 define Package/zerotier/conffiles
 /etc/config/zerotier
+/etc/zerotier.conf
+/etc/zerotier
 endef
 
 define Package/zerotier/install
@@ -79,7 +81,6 @@ define Package/zerotier/install
 ifeq ($(CONFIG_ZEROTIER_ENABLE_SELFTEST),y)
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/zerotier-selftest $(1)/usr/bin/
 endif
-
 	$(CP) ./files/* $(1)/
 endef
 
